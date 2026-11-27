@@ -1,6 +1,6 @@
 'use strict';
 // This cache and scope belong only to /ajou-menu/, separate from Ajou Notices.
-const CACHE = 'ajou-menu-v23-20261128-ios';
+const CACHE = 'ajou-menu-v24-20261128-cleanup';
 const ASSETS = ['./', 'index.html', 'styles.css', 'menu.js', 'menu-data.js', 'favicon.svg', 'manifest.webmanifest', 'apple-touch-icon.png', 'icon-192.png', 'icon-512.png'];
 const ROOT = new URL('./', self.location.href);
 const urls = ASSETS.map(path => new URL(path, ROOT).href);

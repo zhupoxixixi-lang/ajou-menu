@@ -35,7 +35,8 @@ def _session() -> requests.Session:
 def _response_text(body, model, effort):
     if not isinstance(body, dict) or body.get('status') != 'completed':
         raise AIRequestError('Incomplete AI response')
-    if body.get('model', model) != model:
+    returned = str(body.get('model', model))
+    if returned != model and not returned.startswith(f'{model}-'):
         raise AIRequestError('Unexpected response model')
     reasoning = body.get('reasoning')
     if isinstance(reasoning, dict) and reasoning.get('effort', effort) != effort:

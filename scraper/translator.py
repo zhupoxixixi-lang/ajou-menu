@@ -188,7 +188,7 @@ def _explicit_times(text: str) -> list[int]:
         prefix = text[max(0, match.start() - 12):match.start()]
         suffix = text[match.end():match.end() + 12]
         before = re.search(rf'{marker_pattern}\s*$', prefix, re.IGNORECASE)
-        after = re.match(rf'\s*(AM|PM)\b', suffix, re.IGNORECASE)
+        after = re.match(r'\s*(AM|PM)\b', suffix, re.IGNORECASE)
         marker = before.group(1) if before else after.group(1) if after else None
         raw_times.append((hour, minute))
         markers.append(marker.upper() if marker and marker.upper() in {'AM', 'PM'} else marker)

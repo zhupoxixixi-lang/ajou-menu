@@ -217,7 +217,6 @@ def fetch_menu(date_str: str, restaurant_id: int) -> dict:
             raise
     containers = soup.select('div.b-menu-day')
     daily_text = '\n'.join(container.get_text('\n') for container in containers)
-    no_menu = bool(soup.select_one('div.b-menu-day.b-no-menu') or _NO_MENU_RE.search(daily_text))
     closure_text = next((line.strip() for line in daily_text.splitlines()
                          if _DAY_CLOSED_RE.fullmatch(line.strip(' \t*※<>[]'))), '')
     meals = {}

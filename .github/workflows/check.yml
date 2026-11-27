@@ -2,7 +2,7 @@ name: Check Menu App
 on:
   push:
     branches: [main]
-    paths-ignore: ['menu-data.js', 'site/menu-data.js']
+    paths-ignore: ['menu-data.js']
   pull_request:
   workflow_dispatch:
 permissions:
@@ -22,7 +22,3 @@ jobs:
       - run: pip install -r requirements.txt
       - run: python -m unittest discover -s tests -p 'test_*.py'
       - run: node --test tests/*.test.cjs
-      - name: Check public mirror
-        run: |
-          python -m scraper.sync_site
-          git diff --exit-code -- site/

@@ -17,7 +17,6 @@ if _env_path.exists():
 
 from .fetcher import fetch_menu, RESTAURANTS, MEAL_MAP, MEAL_CN, classify_menu_items, has_dishes
 from .translator import translate_menu, is_valid_translation, iter_translation_fields, reasoning_effort, DEFAULT_ENDPOINT, DEFAULT_MODEL, PROMPT_HASH, _namespace
-from .sync_site import sync_site
 
 KST = timezone(timedelta(hours=9))
 
@@ -178,12 +177,8 @@ def run(date_str: str | None = None):
     output = {'week_start': monday.strftime('%Y-%m-%d'), 'generated_at': datetime.now(KST).isoformat(), 'translation': summary, 'days': weeks[0]}
     if len(weeks) > 1:
         output['next_week'] = {'week_start': (monday + timedelta(days=7)).strftime('%Y-%m-%d'), 'days': weeks[1]}
-    for days in weeks:
-        for date, day in days.items():
-            _write_json(BASE_DIR / 'data' / f'menu-{date}.json', day)
     _write_json(BASE_DIR / 'menu-data.js', output, javascript=True)
-    sync_site(BASE_DIR)
-    print('[main] Saved root and site/ menus')
+    print('[main] Saved menu-data.js')
 
 
 if __name__ == '__main__':

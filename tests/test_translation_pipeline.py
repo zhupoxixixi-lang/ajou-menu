@@ -10,7 +10,7 @@ from scraper import ai_client, main, translator
 from scraper.fetcher import MEAL_CN, MEAL_MAP, RESTAURANTS
 
 
-OUTPUT_DIR = Path(__file__).resolve().parents[1] / 'output' / 'luna-pipeline-20261022'
+OUTPUT_DIR = Path(tempfile.gettempdir()) / 'ajou-menu-tests'
 ENDPOINT = 'https://example.invalid/v1'
 
 
@@ -299,15 +299,12 @@ class TranslationPipelineTests(unittest.TestCase):
                 translator, 'CACHE_PATH', cache_path
             ), patch.object(translator, '_call_batch', side_effect=draft_batch), patch.object(
                 translator, '_call_review_batch', side_effect=reject_batch
-            ) as review, patch.object(main, '_write_json') as write_json, patch.object(
-                main, 'sync_site'
-            ) as sync_site:
+            ) as review, patch.object(main, '_write_json') as write_json:
                 with self.assertRaisesRegex(RuntimeError, 'Chinese menu translations incomplete'):
                     main.run('2026-10-19')
 
             self.assertGreater(review.call_count, 0)
             write_json.assert_not_called()
-            sync_site.assert_not_called()
             self.assertEqual(published.read_text(encoding='utf-8'), previous_text)
 
 

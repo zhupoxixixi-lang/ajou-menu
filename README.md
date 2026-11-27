@@ -30,14 +30,15 @@
 
 ## 开发
 
-项目是部署到 GitHub Pages 的静态 PWA。修改静态文件后同步 `site/` 镜像；改动可离线缓存的文件时同时更新 `sw.js` 缓存版本。
+项目是部署到 GitHub Pages 的静态 PWA，网站直接发布仓库根目录。改动可离线缓存的文件（`index.html`、`styles.css`、`menu.js` 等）时同时更新 `sw.js` 的缓存版本。
 
 ```sh
 python -m unittest discover -s tests -p 'test_*.py'
 node --test tests/*.test.cjs
-python -m scraper.sync_site
 ```
 
-本地预览使用 `python -m http.server 8767 --bind 127.0.0.1 --directory site`，打开 `http://127.0.0.1:8767/?lang=cn`。
+本地预览：在仓库根目录运行 `python -m http.server 8767 --bind 127.0.0.1`，打开 `http://127.0.0.1:8767/?lang=cn`。
+
+本地抓取：在 `.env` 写入 `TRANSLATE_API_KEY`（参考 `.env.example`）后运行 `python -m scraper.main`，结果写入 `menu-data.js`。
 
 界面采用原生 HTML/CSS/JavaScript，不依赖第三方 CDN。参考来源和许可见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。

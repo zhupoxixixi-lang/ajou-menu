@@ -7,7 +7,6 @@ from bs4 import BeautifulSoup
 
 from scraper import ai_client, translator, main
 from scraper.fetcher import _parse_menu_text, extract_service_hours, RESTAURANTS, MEAL_MAP, MEAL_CN
-from scraper.sync_site import sync_site, ASSETS
 
 
 def restaurant(rid):
@@ -114,17 +113,6 @@ class FetchTests(unittest.TestCase):
         self.assertEqual(len(sections), 2)
         self.assertEqual(sections[1]['items'][1]['ko'], '김치')
         self.assertEqual(_parse_menu_text('등록된 식단이 없습니다'), [])
-
-    def test_sync_covers_every_public_asset(self):
-        with tempfile.TemporaryDirectory() as directory:
-            base = Path(directory)
-            for asset in ASSETS:
-                source = base / asset
-                source.parent.mkdir(parents=True, exist_ok=True)
-                source.write_text(asset, encoding='utf-8')
-            sync_site(base)
-            for asset in ASSETS:
-                self.assertEqual((base / 'site' / asset).read_text(encoding='utf-8'), asset)
 
     def test_service_hours_prefer_daily_notices_over_location_and_fallbacks(self):
         soup = BeautifulSoup('<div class="b-location-box"><pre>아침 08:00 - 09:50\n점심 11:00 - 14:00\n저녁 16:30 - 18:30</pre></div><div class="b-menu-day breakfast"><pre>조식: 7:00~8:00\n중식(6500원): 11:00~13:30</pre></div>', 'lxml')

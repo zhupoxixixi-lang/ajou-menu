@@ -11,7 +11,7 @@ from scraper import main, translator
 from scraper.fetcher import MEAL_CN, MEAL_MAP, RESTAURANTS
 
 
-OUTPUT_DIR = Path(__file__).resolve().parents[1] / 'output' / 'fix-audit-20261022'
+OUTPUT_DIR = Path(tempfile.gettempdir()) / 'ajou-menu-tests'
 NOTICE = '증식(6,500원): 11:00~14:00'
 VALID_NOTICE = '午餐（六千五百韩元）：十一点至十四点'
 CHANGED_PRICE = '午餐（650韩元）：11:00~14:00'
@@ -296,13 +296,12 @@ class TranslationIntegrityTests(unittest.TestCase):
             main, 'fetch_menu', side_effect=fake_fetch_menu
         ), patch.object(main, 'translate_menu') as translate, patch.object(
             main, '_write_json'
-        ) as write_json, patch.object(main, 'sync_site') as sync_site:
+        ) as write_json:
             with self.assertRaisesRegex(RuntimeError, 'Chinese menu translations incomplete'):
                 main.run('2026-10-19')
 
         translate.assert_called_once()
         write_json.assert_not_called()
-        sync_site.assert_not_called()
 
 
 if __name__ == '__main__':

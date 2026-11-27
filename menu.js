@@ -99,12 +99,14 @@ function dataFreshness(value, now = new Date()) {
 }
 function serviceStatus(restaurant, restaurantId, date, meal, section, now = new Date(), fresh = true) {
   if (!restaurant || restaurant.fetch_status === 'error') return 'emptyService';
-  if (!fresh || restaurant.fetch_status === 'stale') return 'unconfirmed';
+  // A past meal is over whether or not its saved copy could be re-confirmed.
+  const pastDay = date < getKstDate(now);
+  if (!pastDay && (!fresh || restaurant.fetch_status === 'stale')) return 'unconfirmed';
   const hours = serviceHours(restaurant, restaurantId)[meal];
   if (hours === null) return 'closed';
   if (!(section?.items || []).some(item => !isNotice(item))) return 'emptyService';
   if (date > getKstDate(now)) return 'preview';
-  if (date < getKstDate(now)) return 'ended';
+  if (pastDay) return 'ended';
   if (!hours) return 'unknownService';
   const minutes = getKstMinutes(now);
   if (minutes < clockMinutes(hours.start)) return 'upcoming';

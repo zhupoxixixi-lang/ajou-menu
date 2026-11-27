@@ -61,15 +61,14 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add menu-data.js site/
+          git add menu-data.js
           if ! git diff --cached --quiet; then
             git commit -m "Update weekly menu for $(TZ=Asia/Seoul date +%Y-%m-%d)"
-            git push
+            # Another push may land while the job runs; replay this data commit on top.
+            for attempt in 1 2 3; do
+              git push && exit 0
+              sleep $((attempt * 5))
+              git pull --rebase origin main
+            done
+            exit 1
           fi
-      - name: Optional task heartbeat
-        if: always() && !cancelled() && vars.ENABLE_HEALTHCHECKS == 'true'
-        env:
-          ENABLE_HEALTHCHECKS: ${{ vars.ENABLE_HEALTHCHECKS || 'false' }}
-          HEALTHCHECK_PING_URL: ${{ secrets.HEALTHCHECK_PING_URL }}
-          MENU_JOB_STATUS: ${{ job.status }}
-        run: python -m scraper.healthcheck

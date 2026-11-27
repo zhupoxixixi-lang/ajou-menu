@@ -81,6 +81,8 @@ test('closed, notice-only, failed, stale and fallback menus never claim confirme
   assert.equal(status('2026-10-16T03:00:00Z', { fetch_status: 'error' }), 'emptyService');
   assert.equal(status('2026-10-16T03:00:00Z', { ...restaurant, fetch_status: 'stale' }), 'unconfirmed');
   assert.equal(status('2026-10-16T03:00:00Z', restaurant, section, '2026-10-16', false), 'unconfirmed');
+  assert.equal(status('2026-10-16T03:00:00Z', { ...restaurant, fetch_status: 'stale' }, section, '2026-10-15'), 'ended');
+  assert.equal(status('2026-10-16T03:00:00Z', restaurant, section, '2026-10-15', false), 'ended');
   assert.equal(status('2026-10-16T03:00:00Z', { fetch_status: 'ok' }), 'servingReference');
 });
 test('freshness depends on the published timestamp rather than when the page was opened', () => {

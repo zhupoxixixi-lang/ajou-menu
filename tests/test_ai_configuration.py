@@ -57,6 +57,14 @@ class AIConfigurationTests(unittest.TestCase):
         self.assertNotIn('temperature', client.post.call_args.kwargs['json'])
         self.assertEqual(client.post.call_args.args[0], 'https://example.invalid/chat/completions')
 
+    def test_response_model_accepts_dated_alias_but_not_another_model(self):
+        message = {'type': 'message', 'role': 'assistant', 'status': 'completed', 'content': [{'type': 'output_text', 'text': '["泡菜"]'}]}
+        body = lambda model: {'status': 'completed', 'model': model, 'output': [message]}
+        self.assertEqual(ai_client._response_text(body('deepseek-flash-1017'), 'deepseek-flash', 'high'), '["泡菜"]')
+        for other in ('deepseek-v4-pro', 'deepseek-flashy'):
+            with self.assertRaises(ai_client.AIRequestError):
+                ai_client._response_text(body(other), 'deepseek-flash', 'high')
+
     def test_published_translation_metadata_records_requested_effort(self):
         with patch.dict(os.environ, {'TRANSLATE_REASONING_EFFORT': 'max'}):
             summary = main.translation_summary([], translator.DEFAULT_MODEL)
