@@ -65,6 +65,8 @@ def _read_reader_html(url: str, restaurant_id: int, date_str: str) -> str:
         'X-Engine': 'direct',
         'X-No-Cache': 'true',
         'X-Timeout': '30',
+        # Only the menu and opening-hours blocks are parsed; this cuts Reader usage about 25x.
+        'X-Target-Selector': 'div.b-menu-day, .b-location-box',
     }
     # Anonymous Reader traffic from shared CI addresses is sometimes refused (HTTP 401);
     # an optional Reader-only key moves requests into the authenticated pool.

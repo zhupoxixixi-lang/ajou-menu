@@ -169,6 +169,9 @@ def run(date_str: str | None = None):
     today_str = today.strftime('%Y-%m-%d')
     monday = today - timedelta(days=today.weekday())
     previous = _load_previous()
+    if os.environ.get('MENU_RETRY_RUN') == '1' and str(previous.get('generated_at', '')).startswith(today_str):
+        print('[main] Today\'s menu was already published; retry run skipped')
+        return
     weeks, fetched = [], []
     for offset in ([0, 7] if today.weekday() >= 5 else [0]):
         days = {}

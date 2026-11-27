@@ -50,6 +50,7 @@ jobs:
         env:
           MENU_FETCH_TRANSPORT: 'reader_first'
           JINA_API_KEY: ${{ secrets.JINA_API_KEY }}
+          MENU_RETRY_RUN: ${{ github.event.schedule == '0 21 * * *' && '1' || '' }}
           TRANSLATE_API_KEY: ${{ secrets.TRANSLATE_API_KEY }}
           REQUIRE_TRANSLATION: '1'
         run: python -m scraper.main

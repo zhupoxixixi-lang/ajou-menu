@@ -152,6 +152,11 @@ class RunScheduleTests(unittest.TestCase):
                 main.run('2026-11-26')
         write.assert_not_called()
 
+    def test_retry_run_skips_when_today_was_already_published(self):
+        with patch.object(main, '_load_previous', return_value={'generated_at': '2026-11-26T00:03:00+09:00'}),                 patch.object(main, 'fetch_single_day') as fetch, patch.dict('os.environ', {'MENU_RETRY_RUN': '1'}):
+            main.run('2026-11-26')
+        fetch.assert_not_called()
+
     def test_recent_publication_window(self):
         now = main.datetime(2026, 11, 28, 0, 0, tzinfo=main.KST)
         self.assertTrue(main._published_recently({'generated_at': '2026-11-27T23:01:00+09:00'}, now))
