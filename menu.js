@@ -11,67 +11,60 @@ const DEFAULT_SERVICE_HOURS = {
 };
 const COPY = {
   ko: {
-    brand: '아주대학교 식단', restaurant: '식당 선택', meal: '식사 선택', window: '코너 선택',
-    tools: '설정', healthy: '데이터 업데이트됨', delayed: '업데이트 확인 필요', offline: '오프라인 · 저장된 메뉴', automatic: '자동 선택', manual: '직접 선택',
-    refresh: '새로고침', refreshing: '새로고침 중…', refreshOffline: '오프라인에서는 메뉴를 새로고침할 수 없습니다. 인터넷에 연결된 후 다시 시도해 주세요.',
-    offlineBanner: '인터넷에 연결되지 않아 저장된 메뉴를 표시합니다. 새 메뉴와 변경 사항은 연결 후 새로고침해 주세요.',
-    cachedBanner: '저장된 메뉴를 표시하고 있습니다. 최신 메뉴를 보려면 새로고침해 주세요.',
-    notices: '중국어 공지 ↗', serving: '운영시간 내', servingReference: '참고 운영시간 내', upcoming: '운영 시작 전', ended: '운영시간 종료', preview: '예정 메뉴', closed: '이 식사는 운영하지 않아요', emptyService: '등록된 메뉴 없음', unconfirmed: '운영 여부 확인 필요', unknownService: '운영시간은 학교 원문 확인',
-    breakfast: '아침', lunch: '점심', dinner: '저녁', snack: '분식',
-    menu: '식단', today: '현재 식사로', todayLabel: '오늘', tomorrowLabel: '내일', source: '학교 원문', servingHours: '운영시간', fallbackHours: '참고 운영시간',
-    thisWeek: '이번 주', nextWeek: '다음 주 미리보기', calendar: '날짜 선택', calendarHint: '회색 날짜에는 메뉴가 없습니다.',
-    skip: '메뉴로 바로가기', notice: '비공식 식단 안내입니다. 실제 공급 메뉴는 학교 공지를 확인해 주세요.', dismiss: '안내 닫기',
-    empty: '등록된 식단이 없어요', emptyDescription: '다른 날짜나 식사를 선택하거나 학교 원문을 확인해 주세요.', holidayClosed: '주말·공휴일 휴무', operating: '운영 안내', unavailableMeal: meal => `${meal} 미운영`,
-    fetchError: '식단을 불러오지 못했습니다. 학교 원문을 확인해 주세요.', missing: '이 식당의 해당 날짜 데이터가 없습니다. 학교 원문을 확인해 주세요.',
-    futureMissing: '다음 날짜의 식단 정보가 없습니다. 학교 원문을 확인해 주세요.',
-    notPublished: '식단이 아직 게시되지 않았어요', sourceUnavailable: '학교 페이지에 식단 없음', savedMenu: '학교 페이지에 해당 날짜의 메뉴가 없어 이전에 저장된 같은 날짜의 식단을 표시합니다.',
-    old: '저장된 식단을 표시하고 있습니다. 최신 메뉴는 학교 원문을 확인해 주세요.',
-    staleRestaurant: '수집에 실패해 이전에 저장된 같은 날짜의 메뉴를 표시합니다. 변경 사항은 학교 원문을 확인해 주세요.',
-    translationMissing: '일부 중국어 번역이 준비되지 않아 한국어 원문을 표시합니다.', noData: '메뉴 데이터를 불러오지 못했습니다. 잠시 후 새로고침하거나 학교 원문을 확인해 주세요.',
-    updated: '업데이트', footer: '아주대학교와 독립적으로 운영되는 오픈소스 식단 안내',
-    share: '메뉴 복사', copied: '메뉴를 복사했어요', copyHint: '자동 복사가 불가능합니다. 아래 내용을 선택해 복사해 주세요.',
-    close: '닫기', previous: '이전 날짜', next: '다음 날짜', previousMonth: '이전 달', nextMonth: '다음 달',
-    dishes: n => `${n}개 메뉴`, days: n => `메뉴 날짜: ${n}일`,
+    brand: '아주대학교 식단', tools: '설정', done: '완료', now: '지금',
+    restaurant: '식당 선택', meal: '식사 선택', calendar: '날짜 선택',
+    todayLabel: '오늘', tomorrowLabel: '내일', thisWeek: '이번 주', nextWeek: '다음 주', nextWeekHint: '밀어서 다음 주 →',
+    refresh: '메뉴 새로고침', refreshing: '새로고침 중…', refreshOffline: '오프라인에서는 새로고침할 수 없어요. 인터넷에 연결한 뒤 다시 시도해 주세요.',
+    offlineBanner: '오프라인 상태라 저장된 메뉴를 보여드려요.',
+    cachedBanner: '저장된 메뉴를 보여드리고 있어요. 최신 메뉴는 설정에서 새로고침해 주세요.',
+    old: '메뉴가 한동안 업데이트되지 않았어요. 최신 정보는 학교 원문을 확인해 주세요.',
+    noData: '메뉴 데이터를 불러오지 못했어요. 잠시 후 새로고침해 주세요.',
+    serving: '운영 중', servingReference: '운영 중', upcoming: '운영 전', ended: '운영 종료', preview: '예정 메뉴', closed: '운영 안 함', emptyService: '메뉴 없음', unconfirmed: '운영 여부 확인 필요', unknownService: '운영시간 미확인',
+    reference: '참고', breakfast: '아침', lunch: '점심', dinner: '저녁', snack: '분식',
+    empty: '등록된 메뉴가 없어요', emptyDescription: '다른 식사나 날짜를 선택해 보세요.', holidayClosed: '주말·공휴일 휴무', closedDescription: '이날은 식당을 운영하지 않아요.',
+    notPublished: '아직 메뉴가 올라오지 않았어요', notPublishedDescription: '학교에서 식단을 게시하면 자동으로 업데이트돼요.',
+    unavailableMeal: meal => `${meal}은 운영하지 않아요`, unavailableDescription: '위에서 다른 식사를 선택해 보세요.',
+    fetchError: '이 식당의 메뉴를 불러오지 못했어요. 학교 원문을 확인해 주세요.', missing: '이 날짜의 데이터가 없어요. 학교 원문을 확인해 주세요.', futureMissing: '이 날짜의 메뉴 정보가 아직 없어요.',
+    savedMenu: '학교 페이지에서 이 날짜 메뉴가 사라져, 이전에 저장한 메뉴를 보여드려요.', staleRestaurant: '최신 메뉴를 가져오지 못해 이전에 저장한 메뉴를 보여드려요.',
+    translationMissing: '일부 번역이 준비되지 않아 한국어 원문으로 표시해요.',
+    updated: '업데이트', footer: '비공식 식단 안내 · 실제 메뉴는 학교 공지를 따릅니다',
+    disclaimer: '아주대학교와 무관한 비공식 오픈소스 식단 안내입니다. 매일 00:00(KST)에 학교 공지를 자동으로 가져와요.',
+    share: '메뉴 복사', copied: '메뉴를 복사했어요', copyHint: '자동 복사가 불가능해요. 아래 내용을 길게 눌러 복사해 주세요.',
+    close: '닫기', operating: '운영 안내', source: '학교 원문 보기', skip: '메뉴로 바로가기',
+    weekdays: ['월', '화', '수', '목', '금', '토', '일'],
   },
   cn: {
-    brand: '亚洲大学食堂菜单', restaurant: '选择食堂', meal: '选择餐次', window: '选择窗口',
-    tools: '设置', healthy: '数据已更新', delayed: '需要检查更新', offline: '离线 · 已保存菜单', automatic: '自动选餐', manual: '手动查看',
-    refresh: '刷新菜单', refreshing: '正在刷新…', refreshOffline: '当前处于离线状态，无法刷新菜单。请联网后重试。',
-    offlineBanner: '当前处于离线状态，显示已保存菜单；联网后可刷新查看最新安排。',
-    cachedBanner: '当前显示的是已保存菜单；如需获取最新菜单，请手动刷新。',
-    notices: '中文公告 ↗', serving: '供餐时段内', servingReference: '参考供餐时段内', upcoming: '尚未开始', ended: '本餐已结束', preview: '预告菜单', closed: '该餐次不供应', emptyService: '暂无菜单', unconfirmed: '供餐情况待核实', unknownService: '供餐时间请查看学校原文',
-    breakfast: '早餐', lunch: '午餐', dinner: '晚餐', snack: '小吃',
-    menu: '菜单', today: '回到当前餐次', todayLabel: '今天', tomorrowLabel: '明天', source: '学校原文', servingHours: '供餐时间', fallbackHours: '参考供餐时间',
-    thisWeek: '本周', nextWeek: '下周预告', calendar: '选择日期', calendarHint: '灰色日期暂无菜单。',
-    skip: '跳到菜单', notice: '这是非官方食堂菜单助手，实际供应请以学校公告为准。', dismiss: '关闭提示',
-    empty: '暂时没有这份菜单', emptyDescription: '可以换个日期或餐次，或查看学校的原始公告。', holidayClosed: '节假日不营业', operating: '营业说明', unavailableMeal: meal => `不供应${meal}`,
-    fetchError: '这间食堂的菜单暂时获取失败，请查看学校原文。', missing: '暂时没有这间食堂当天的数据，请查看学校原文。',
-    futureMissing: '下一天暂无菜单数据，请查看学校原文。',
-    notPublished: '菜单尚未公布', sourceUnavailable: '学校页面暂无菜单', savedMenu: '学校页面已无当天菜单，显示此前保存的同一天菜单。',
-    old: '当前显示的是已保存菜单，最新安排请以学校原文为准。',
-    staleRestaurant: '本次获取失败，显示此前保存的同一天菜单；如有调整，请以学校原文为准。',
-    translationMissing: '部分中文译文暂缺，先保留韩文原名。', noData: '菜单数据加载失败，请稍后刷新或查看学校原文。',
-    updated: '更新于', footer: '独立于亚洲大学运营的开源菜单助手',
-    share: '复制菜单', copied: '已复制菜单', copyHint: '当前浏览器无法自动复制，请选中下面的内容后复制。',
-    close: '关闭', previous: '上一个日期', next: '下一个日期', previousMonth: '上一个月', nextMonth: '下一个月',
-    dishes: n => `${n} 道菜`, days: n => `可用日期：${n} 天`,
+    brand: '亚洲大学食堂', tools: '设置', done: '完成', now: '现在',
+    restaurant: '选择食堂', meal: '选择餐次', calendar: '选择日期',
+    todayLabel: '今天', tomorrowLabel: '明天', thisWeek: '本周', nextWeek: '下周', nextWeekHint: '左滑看下周 →',
+    refresh: '刷新菜单', refreshing: '正在刷新…', refreshOffline: '当前离线，无法刷新。请联网后再试。',
+    offlineBanner: '当前离线，显示的是已保存的菜单。',
+    cachedBanner: '显示的是已保存的菜单，可在设置里刷新获取最新内容。',
+    old: '菜单有一段时间没更新了，最新安排请以学校原文为准。',
+    noData: '菜单数据加载失败，请稍后刷新。',
+    serving: '供餐中', servingReference: '供餐中', upcoming: '未开始', ended: '已结束', preview: '预告', closed: '不供应', emptyService: '暂无菜单', unconfirmed: '供餐待确认', unknownService: '时间待确认',
+    reference: '参考', breakfast: '早餐', lunch: '午餐', dinner: '晚餐', snack: '小吃',
+    empty: '暂时没有这份菜单', emptyDescription: '换个餐次或日期看看。', holidayClosed: '节假日不营业', closedDescription: '这一天食堂休息。',
+    notPublished: '菜单还没公布', notPublishedDescription: '学校公布后会自动更新。',
+    unavailableMeal: meal => `今天不供应${meal}`, unavailableDescription: '可以在上方切换其他餐次。',
+    fetchError: '这间食堂的菜单暂时获取失败，请查看学校原文。', missing: '这一天暂无数据，请查看学校原文。', futureMissing: '这一天的菜单还没有数据。',
+    savedMenu: '学校页面已撤下这天的菜单，显示的是之前保存的版本。', staleRestaurant: '本次没能获取最新菜单，显示的是之前保存的版本。',
+    translationMissing: '部分译文暂缺，先显示韩文原名。',
+    updated: '更新于', footer: '非官方菜单助手 · 实际供应以学校公告为准',
+    disclaimer: '这是与亚洲大学无关的非官方开源菜单助手，每天 00:00（韩国时间）自动同步学校公告。',
+    share: '复制菜单', copied: '已复制菜单', copyHint: '无法自动复制，请长按下面的内容手动复制。',
+    close: '关闭', operating: '营业说明', source: '查看学校原文', skip: '跳到菜单',
+    weekdays: ['一', '二', '三', '四', '五', '六', '日'],
   },
 };
 const ICONS = {
-  restaurant: '<path d="M3 10h18M5 10v10h14V10M3 10l2-6h14l2 6M9 20v-6h6v6"/>',
-  breakfast: '<path d="M3 8h14v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V8ZM17 9h2a3 3 0 0 1 0 6h-2M6 2v3m4-3v3m4-3v3"/>',
-  lunch: '<path d="M4 2v6a3 3 0 0 0 6 0V2M7 2v20M20 2c-4 2-5 6-5 10h5M20 2v20"/>',
-  dinner: '<path d="M20 15a8 8 0 0 1-11-11A9 9 0 1 0 20 15Z"/>',
-  snack: '<path d="m7 3 2 6m8-6-2 6M4 10h16c0 7-3 11-8 11S4 17 4 10ZM3 10h18"/>',
   bowl: '<path d="M3 10h18c0 7-4 11-9 11S3 17 3 10ZM2 10h20M7 2v4m5-5v5m5-4v4"/>',
-  moon: '<path d="M20 15a8 8 0 0 1-11-11A9 9 0 1 0 20 15Z"/>',
-  calendar: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M7 2v5m10-5v5"/>',
-  info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v.1"/>',
   refresh: '<path d="M20 7v5h-5M4 17v-5h5M5.5 7a7 7 0 0 1 11.7-2L20 8M4 16l2.8 3A7 7 0 0 0 18.5 17"/>',
-  left: '<path d="m14 6-6 6 6 6"/>', right: '<path d="m10 6 6 6-6 6"/>', close: '<path d="m6 6 12 12M6 18 18 6"/>',
+  right: '<path d="m10 6 6 6-6 6"/>',
   external: '<path d="M14 3h7v7m0-7L10 14M10 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5"/>',
-  copy: '<rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/>',
-  settings: '<path d="M4 21v-7m0-4V3m8 18v-9m0-4V3m8 18v-5m0-4V3M2 14h4m4-6h4m4 8h4"/>',
+  copy: '<rect x="8" y="8" width="13" height="13" rx="2.5"/><path d="M16 8V5.5A2.5 2.5 0 0 0 13.5 3h-8A2.5 2.5 0 0 0 3 5.5v8A2.5 2.5 0 0 0 5.5 16H8"/>',
+  more: '<circle cx="5" cy="12" r="1.4" fill="currentColor"/><circle cx="12" cy="12" r="1.4" fill="currentColor"/><circle cx="19" cy="12" r="1.4" fill="currentColor"/>',
+  clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
   github: '<path d="M9 19c-4 1-4-2-6-2m12 5v-4a3 3 0 0 0-1-2c3-.3 6-1.5 6-6a5 5 0 0 0-1.5-3.5A5 5 0 0 0 18 3s-1.5-.5-4 1a14 14 0 0 0-6 0C5.5 2.5 4 3 4 3a5 5 0 0 0-.5 3.5A5 5 0 0 0 2 10c0 4.5 3 5.7 6 6a3 3 0 0 0-1 2v4"/>',
 };
 
@@ -200,149 +193,180 @@ function storageRead(key) { try { return localStorage.getItem(key); } catch { re
 function storageWrite(key, value) { try { localStorage.setItem(key, value); } catch { /* Preferences are optional. */ } }
 let state, data, schedule, toastTimer;
 let offlineFallback = false, offlineState = 'cachePending';
+let lastContentKey = '', lastStripWeek = '', pendingDirection = 0;
 const $ = id => document.getElementById(id);
 const el = (tag, className, text) => { const node = document.createElement(tag); if (className) node.className = className; if (text != null) node.textContent = text; return node; };
 const copy = () => COPY[state.lang];
 const isChinese = () => state.lang === 'cn';
 const activeWeek = () => schedule.weeks.find(week => week.key === state.week);
 const currentRestaurant = () => activeWeek()?.days[state.date]?.restaurants?.find(restaurant => Number(restaurant.id) === state.restaurantId);
-const currentSection = () => availableMeals(currentRestaurant()).includes(state.meal) ? resolveSection(currentRestaurant(), state.meal, state.sectionName) : undefined;
 const restaurantInfo = () => RESTAURANTS.find(restaurant => restaurant.id === state.restaurantId) || RESTAURANTS[0];
 const localized = (original, translated) => isChinese() && validTranslation(original, translated) ? translated : original || '';
+const locale = () => isChinese() ? 'zh-CN' : 'ko-KR';
+const currentSections = () => availableMeals(currentRestaurant()).includes(state.meal) ? menuSections(currentRestaurant(), state.meal) : [];
 
 function icon(name) {
   const span = el('span');
   // Markup is limited to these static SVG paths. External menu text always uses textContent.
-  span.innerHTML = `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name] || ICONS.bowl}</svg>`;
+  span.innerHTML = `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name] || ICONS.bowl}</svg>`;
   return span.firstChild;
 }
-function button(className, pressed, action) { const node = el('button', className); node.type = 'button'; node.setAttribute('aria-pressed', String(pressed)); node.addEventListener('click', action); return node; }
-function updateWindowOverflowHints(strip = $('windowTabs')) {
-  if (!strip) return;
-  const host = strip.closest('.glass-windows') || strip;
-  const hasOverflow = !strip.hidden && strip.scrollWidth > strip.clientWidth + 2;
-  const hints = {
-    'data-overflow-start': hasOverflow && strip.scrollLeft > 2,
-    'data-overflow-end': hasOverflow && strip.scrollLeft + strip.clientWidth < strip.scrollWidth - 2,
-  };
-  for (const [attribute, value] of Object.entries(hints)) {
-    if (host.getAttribute(attribute) !== String(value)) host.setAttribute(attribute, String(value));
-  }
-}
-function scrollWindowChipIntoView(chip, leaveEdgeRoom = false) {
-  const strip = $('windowTabs');
-  if (!chip || !strip || strip.hidden) return;
-  const getBounds = () => ({ strip: strip.getBoundingClientRect(), chip: chip.getBoundingClientRect() });
-  let { strip: stripBounds, chip: chipBounds } = getBounds();
-  const hasBefore = Boolean(chip.previousElementSibling);
-  const hasAfter = Boolean(chip.nextElementSibling);
-  let startRoom = leaveEdgeRoom && hasBefore ? 26 : 0;
-  let endRoom = leaveEdgeRoom && hasAfter ? 26 : 0;
-  if (chipBounds.width > strip.clientWidth - startRoom - endRoom) { startRoom = 0; endRoom = 0; }
-  if (chipBounds.left < stripBounds.left + startRoom) strip.scrollLeft += Math.floor(chipBounds.left - (stripBounds.left + startRoom));
-  ({ strip: stripBounds, chip: chipBounds } = getBounds());
-  if (chipBounds.right > stripBounds.right - endRoom) strip.scrollLeft += Math.ceil(chipBounds.right - (stripBounds.right - endRoom));
-  updateWindowOverflowHints(strip);
-}
-function observeWindowTabOverflow() {
-  const strip = $('windowTabs');
-  strip.addEventListener('scroll', () => updateWindowOverflowHints(strip), { passive: true });
-  strip.addEventListener('focusin', event => {
-    if (event.target.matches('.window-button')) scrollWindowChipIntoView(event.target, true);
-  });
-  if (typeof ResizeObserver === 'function') new ResizeObserver(() => updateWindowOverflowHints(strip)).observe(strip);
-  else window.addEventListener('resize', () => updateWindowOverflowHints(strip));
-}
-function dateText(date, options) { return date ? new Intl.DateTimeFormat(isChinese() ? 'zh-CN' : 'ko-KR', { timeZone: 'Asia/Seoul', ...options }).format(new Date(`${date}T12:00:00+09:00`)) : ''; }
+function dateText(date, options) { return date ? new Intl.DateTimeFormat(locale(), { timeZone: 'Asia/Seoul', ...options }).format(new Date(`${date}T12:00:00+09:00`)) : ''; }
+function addDays(date, amount) { const value = new Date(`${date}T12:00:00Z`); value.setUTCDate(value.getUTCDate() + amount); return value.toISOString().slice(0, 10); }
+function mondayOf(date) { const day = new Date(`${date}T12:00:00Z`).getUTCDay(); return addDays(date, -((day + 6) % 7)); }
 function showStatus(id, text) { $(id).textContent = text || ''; $(id).hidden = !text; }
-function closeDialogs() { for (const dialog of document.querySelectorAll('dialog[open]')) dialog.close(); }
-function openDialog(id) { closeDialogs(); $(id).showModal(); }
-function chooseDate(date) { const week = schedule.weeks.find(item => item.dates.includes(date)); if (!week) return; state.automatic = false; state.week = week.key; state.calendarWeek = week.key; state.date = date; state.calendarMonth = date.slice(0, 7); state.sectionName = null; renderAll(); if ($('dateDialog').open) $('dateDialog').close(); }
+function haptic() { try { navigator.vibrate?.(8); } catch { /* optional */ } }
+
+function closeSheet(dialog) {
+  if (!dialog.open || dialog.classList.contains('is-closing')) return;
+  const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) { dialog.close(); return; }
+  dialog.classList.add('is-closing');
+  const finish = () => { dialog.classList.remove('is-closing'); dialog.close(); };
+  dialog.addEventListener('animationend', finish, { once: true });
+  setTimeout(() => { if (dialog.open) finish(); }, 400);
+}
+function openSheet(id) { for (const dialog of document.querySelectorAll('dialog[open]')) dialog.close(); $(id).showModal(); }
+
+function titleFor(date) {
+  if (date === schedule.today) return copy().todayLabel;
+  if (date === nextDate(schedule.today)) return copy().tomorrowLabel;
+  return dateText(date, { weekday: 'long' });
+}
+function setSelection(changes, direction = 0) {
+  Object.assign(state, changes);
+  pendingDirection = direction;
+  renderAll();
+}
+function fitMeal(restaurant, preferred) {
+  const meals = availableMeals(restaurant);
+  return meals.includes(preferred) || !meals.length ? preferred : meals[0];
+}
+function chooseDate(date, direction) {
+  const week = schedule.weeks.find(item => item.dates.includes(date));
+  if (!week || date === state.date) return;
+  const restaurant = week.days[date]?.restaurants?.find(item => Number(item.id) === state.restaurantId);
+  haptic();
+  setSelection({ automatic: false, week: week.key, date, meal: fitMeal(restaurant, state.meal), sectionName: null }, direction ?? (date > state.date ? 1 : -1));
+}
+function chooseRestaurant(id) {
+  if (id === state.restaurantId) return;
+  haptic();
+  storageWrite('menuRestaurant', String(id));
+  state.restaurantId = id;
+  if (state.automatic) { refreshAutomaticSelection(true); return; }
+  setSelection({ meal: fitMeal(currentRestaurant(), state.meal), sectionName: null });
+}
+function chooseMeal(meal, direction = 0) {
+  if (meal === state.meal) return;
+  haptic();
+  setSelection({ automatic: false, meal, sectionName: null }, direction || (MEAL_ORDER.indexOf(meal) > MEAL_ORDER.indexOf(state.meal) ? 1 : -1));
+}
 
 function refreshAutomaticSelection(force = false) {
   const now = new Date();
   const previousToday = schedule.today;
   schedule = buildSchedule(data, now);
-  if (!state.automatic && !force) { if (previousToday !== schedule.today) renderAll(); else { renderMenu(); renderAppStatus(); } return; }
+  if (!state.automatic && !force) { if (previousToday !== schedule.today) renderAll(); else renderMenu(); return; }
   const selected = selectDefaultMenu(data, state.restaurantId, now);
   const changed = selected.date !== state.date || selected.meal !== state.meal || selected.week !== state.week || previousToday !== schedule.today;
   if (force) {
     state.automatic = true; state.linked = false;
     const url = new URL(window.location.href);
-    for (const key of ['date', 'meal', 'window']) url.searchParams.delete(key);
-    if (url.searchParams.has('restaurant')) url.searchParams.set('restaurant', state.restaurantId);
+    for (const key of ['date', 'meal', 'window', 'restaurant']) url.searchParams.delete(key);
     window.history.replaceState(null, '', url);
   }
-  if (changed || force) { Object.assign(state, selected); state.sectionName = null; state.calendarMonth = selected.date.slice(0, 7); renderAll(); }
-  else { renderMenu(); renderAppStatus(); }
+  if (changed || force) { Object.assign(state, selected); state.sectionName = null; renderAll(); }
+  else renderMenu();
 }
 
-function renderDates() {
-  const week = schedule.weeks.find(item => item.key === state.calendarWeek) || activeWeek();
-  const months = calendarMonths(schedule, state.calendarWeek, state.week);
-  if (!months.includes(state.calendarMonth)) state.calendarMonth = months.includes(state.date.slice(0, 7)) ? state.date.slice(0, 7) : months[0];
-  $('weekSwitch').hidden = schedule.weeks.length < 2;
-  $('weekSwitch').replaceChildren(...schedule.weeks.map(item => {
-    const node = button('', week?.key === item.key, () => { state.calendarWeek = item.key; state.calendarMonth = item.dates[0].slice(0, 7); renderDates(); });
-    node.textContent = item.key === 'next' ? copy().nextWeek : copy().thisWeek;
-    return node;
-  }));
-  $('todayButton').textContent = copy().today;
-  $('todayButton').disabled = !data;
-  $('calendarWeekdays').replaceChildren(...(isChinese() ? ['一','二','三','四','五','六','日'] : ['월','화','수','목','금','토','일']).map(day => el('span', '', day)));
-  const monthIndex = months.indexOf(state.calendarMonth);
-  $('calendarPrev').disabled = monthIndex <= 0;
-  $('calendarNext').disabled = monthIndex < 0 || monthIndex >= months.length - 1;
-  const cells = [];
-  if (state.calendarMonth) {
-    const [year, month] = state.calendarMonth.split('-').map(Number);
-    const offset = (new Date(Date.UTC(year, month - 1, 1)).getUTCDay() + 6) % 7;
-    const days = new Date(Date.UTC(year, month, 0)).getUTCDate();
-    $('calendarMonth').textContent = dateText(`${state.calendarMonth}-01`, { year: 'numeric', month: 'long' });
-    for (let i = 0; i < offset; i++) cells.push(el('span'));
-    for (let number = 1; number <= days; number++) {
-      const date = `${state.calendarMonth}-${String(number).padStart(2, '0')}`;
-      if (week.dates.includes(date)) {
-        const node = button(`date-button${date === schedule.today ? ' is-today' : ''}`, date === state.date, () => chooseDate(date));
-        node.textContent = number;
-        node.setAttribute('aria-label', dateText(date, { month: 'long', day: 'numeric', weekday: 'long' }));
-        cells.push(node);
-      } else { const node = el('span', 'calendar-unavailable', number); node.setAttribute('aria-hidden', 'true'); cells.push(node); }
+function renderWeekStrip() {
+  const strip = $('weekStrip');
+  const pages = schedule.weeks.map((week, index) => {
+    const page = el('div', 'week-page');
+    page.dataset.week = week.key;
+    const label = el('p', 'week-label');
+    label.append(el('span', '', week.key === 'next' ? copy().nextWeek : copy().thisWeek));
+    if (index === 0 && schedule.weeks.length > 1) label.append(el('span', 'hint', copy().nextWeekHint));
+    const grid = el('div', 'week-days');
+    const start = mondayOf(week.dates[0]);
+    for (let offset = 0; offset < 7; offset++) {
+      const date = addDays(start, offset);
+      const node = el('button', 'day-button');
+      node.type = 'button';
+      if (date === schedule.today) node.classList.add('is-today');
+      if (offset >= 5) node.classList.add('is-weekend');
+      node.disabled = !week.dates.includes(date);
+      node.setAttribute('aria-pressed', String(date === state.date));
+      node.setAttribute('aria-label', dateText(date, { month: 'long', day: 'numeric', weekday: 'long' }));
+      node.append(el('span', 'day-name', copy().weekdays[offset]), el('span', 'day-number', String(Number(date.slice(8)))));
+      node.addEventListener('click', () => chooseDate(date));
+      grid.append(node);
     }
-  } else $('calendarMonth').textContent = '—';
-  $('weekTabs').replaceChildren(...cells);
-  $('navDateDisplay').textContent = dateText(state.date, { month: 'long', day: 'numeric' }) || '—';
-  const dates = [...new Set([...allDates(schedule), state.date].filter(Boolean))].sort();
-  const index = dates.indexOf(state.date);
-  $('prevDate').disabled = index <= 0;
-  $('nextDate').disabled = index < 0 || index === dates.length - 1;
+    page.append(label, grid);
+    return page;
+  });
+  strip.replaceChildren(...pages);
+  strip.setAttribute('aria-label', copy().calendar);
+  const weekKey = schedule.weeks.find(week => week.dates.includes(state.date))?.key || state.week;
+  if (weekKey !== lastStripWeek) {
+    const target = pages.find(page => page.dataset.week === weekKey);
+    const behavior = lastStripWeek ? 'smooth' : 'auto';
+    lastStripWeek = weekKey;
+    if (target) requestAnimationFrame(() => strip.scrollTo({ left: target.offsetLeft - pages[0].offsetLeft, behavior }));
+  }
+}
+
+function segmented(container, options, selected, onChoose) {
+  const index = options.findIndex(option => option.value === selected);
+  container.style.setProperty('--count', options.length || 1);
+  container.style.setProperty('--index', Math.max(0, index));
+  container.classList.toggle('no-selection', index < 0);
+  const existing = [...container.children];
+  const reusable = existing.length === options.length && existing.every((node, i) => node.dataset.value === String(options[i].value));
+  const nodes = reusable ? existing : options.map(option => {
+    const node = el('button', 'segment');
+    node.type = 'button'; node.setAttribute('role', 'tab'); node.dataset.value = String(option.value);
+    node.addEventListener('click', () => onChoose(option.value));
+    return node;
+  });
+  options.forEach((option, i) => { nodes[i].textContent = option.label; nodes[i].setAttribute('aria-selected', String(i === index)); });
+  if (!reusable) container.replaceChildren(...nodes);
 }
 
 function renderSelectors() {
-  $('restaurantTabs').replaceChildren(...RESTAURANTS.map(info => {
-    const node = button('restaurant-button', info.id === state.restaurantId, () => { state.restaurantId = info.id; state.sectionName = null; if (state.automatic) refreshAutomaticSelection(true); else renderAll(); });
-    node.append(icon('restaurant'), el('span', '', isChinese() ? info.name_cn : info.name_ko));
-    return node;
-  }));
-  const available = availableMeals(currentRestaurant());
-  $('mealTabs').hidden = available.length === 0;
-  $('mealTabs').style.setProperty('--meal-count', available.length || 1);
-  $('mealTabs').replaceChildren(...available.map(meal => {
-    const node = button('meal-button', state.meal === meal, () => { state.automatic = false; state.meal = meal; state.sectionName = null; renderAll(); });
-    node.append(icon(meal), el('span', '', copy()[meal])); return node;
-  }));
-  const sections = available.includes(state.meal) ? menuSections(currentRestaurant(), state.meal) : [];
-  const previousScroll = $('windowTabs').scrollLeft;
-  $('windowTabs').hidden = sections.length < 2;
-  $('windowTabs').replaceChildren(...sections.map(section => {
-    const note = section.items.every(isNotice);
-    const node = button(`window-button${note ? ' note-window' : ''}`, section.name_ko === state.sectionName, () => { state.automatic = false; state.sectionName = section.name_ko; renderAll(); });
-    node.textContent = localized(section.name_ko, section.name_cn); return node;
-  }));
-  $('windowTabs').scrollLeft = previousScroll;
-  const selectedWindow = $('windowTabs').querySelector('[aria-pressed="true"]');
-  if (selectedWindow && !$('windowTabs').hidden) scrollWindowChipIntoView(selectedWindow, true);
-  updateWindowOverflowHints($('windowTabs'));
+  segmented($('restaurantTabs'), RESTAURANTS.map(info => ({ value: info.id, label: isChinese() ? info.name_cn : info.name_ko })), state.restaurantId, value => chooseRestaurant(Number(value)));
+  const meals = availableMeals(currentRestaurant());
+  $('mealTabs').hidden = meals.length === 0;
+  segmented($('mealTabs'), meals.map(meal => ({ value: meal, label: copy()[meal] })), state.meal, value => chooseMeal(value));
+  $('restaurantTabs').setAttribute('aria-label', copy().restaurant);
+  $('mealTabs').setAttribute('aria-label', copy().meal);
+}
+
+function cornerCard(section) {
+  const card = el('article', 'corner-card');
+  const food = section.items.filter(item => !isNotice(item));
+  const notes = section.items.filter(isNotice);
+  const name = localized(section.name_ko, section.name_cn);
+  const header = el('h3', 'corner-name');
+  const letter = /^([A-Z])\s*(?:코너|窗口)?$/i.exec(section.name_ko.trim());
+  if (letter) header.append(el('span', 'corner-badge', letter[1].toUpperCase()));
+  header.append(el('span', '', name));
+  card.append(header);
+  if (food.length) {
+    card.append(el('p', 'main-dish', localized(food[0].ko, food[0].cn)));
+    if (food.length > 1) {
+      const list = el('ul', 'side-list');
+      for (const item of food.slice(1)) list.append(el('li', '', localized(item.ko, item.cn)));
+      card.append(list);
+    }
+  } else card.classList.add('note-card');
+  if (notes.length) {
+    const box = el('div', 'card-notes');
+    box.append(...notes.map(item => el('p', '', localized(item.ko, item.cn))));
+    card.append(box);
+  }
+  return card;
 }
 
 function renderMenu() {
@@ -350,56 +374,60 @@ function renderMenu() {
   const closedDay = isClosedDay(restaurant, state.date);
   const unpublished = isUnpublishedDay(restaurant, state.date);
   const unavailable = unavailableMeal(restaurant, state.meal);
-  const section = closedDay ? undefined : currentSection();
-  const items = (section?.items || []).filter(item => !isNotice(item));
-  const notices = (section?.items || []).filter(isNotice);
-  $('menuHeading').textContent = `${dateText(state.date, { weekday: 'long' })}${isChinese() ? '' : ' '}${copy().menu}`;
-  $('dateDisplay').textContent = state.date.replaceAll('-', '.') || '—';
-  $('todayMarker').textContent = state.date === schedule.today ? copy().todayLabel : copy().tomorrowLabel;
-  $('todayMarker').hidden = state.date !== schedule.today && state.date !== nextDate(schedule.today);
-  $('serviceMeta').hidden = !section;
+  const sections = closedDay ? [] : currentSections();
+  const primary = closedDay ? undefined : resolveSection(restaurant, state.meal, null);
+  const hasMenu = sections.length > 0;
+  const info = restaurantInfo();
+
+  const title = titleFor(state.date);
+  $('pageTitle').textContent = title;
+  const longDate = dateText(state.date, { month: 'long', day: 'numeric', weekday: 'long' });
+  $('heroDate').textContent = title === dateText(state.date, { weekday: 'long' }) ? dateText(state.date, { month: 'long', day: 'numeric' }) : longDate;
+  $('compactTitle').textContent = `${title} · ${copy()[state.meal] || ''}`;
+  $('mealHeading').textContent = `${longDate} ${localized(info.name_ko, info.name_cn)} ${copy()[state.meal] || ''}`;
+
   const hours = serviceHours(restaurant, state.restaurantId)[state.meal];
-  $('serviceHours').textContent = hours ? `${hours.source === 'fallback' || !section ? copy().fallbackHours : copy().servingHours} ${hours.start}–${hours.end}` : '';
-  $('serviceHours').hidden = !hours;
-  const status = serviceStatus(restaurant, state.restaurantId, state.date, state.meal, section, new Date(), dataFreshness(data) === 'fresh' && navigator.onLine && !offlineFallback);
+  const fresh = dataFreshness(data) === 'fresh' && navigator.onLine && !offlineFallback;
+  const status = serviceStatus(restaurant, state.restaurantId, state.date, state.meal, hasMenu ? primary : undefined, new Date(), fresh);
   $('serviceState').textContent = copy()[status];
   $('serviceState').dataset.state = status;
-  $('serviceState').hidden = false;
-  $('shareButton').disabled = !section;
-  $('shareButton').hidden = !section;
-  const content = [];
-  if (items.length) {
-    const table = el('table', 'menu-table');
-    table.setAttribute('aria-label', `${copy()[state.meal]} · ${localized(section.name_ko, section.name_cn)}`);
-    const body = el('tbody');
-    for (const item of items) {
-      const row = el('tr', 'dish-row');
-      const name = el('td', 'dish-name'); name.append(el('strong', '', localized(item.ko, item.cn)));
-      row.append(name); body.append(row);
-    }
-    table.append(body); content.push(table);
+  $('serviceHours').textContent = hours ? `${hours.start} – ${hours.end}${hours.source === 'fallback' ? ` · ${copy().reference}` : ''}` : '';
+  $('servicePlace').textContent = `${localized(info.name_ko, info.name_cn)} · ${isChinese() ? info.location_cn : info.location_ko}`;
+  $('shareButton').disabled = !hasMenu;
+  $('shareButton').setAttribute('aria-label', copy().share);
+  $('shareButton').title = copy().share;
+
+  const key = `${state.date}|${state.restaurantId}|${state.meal}|${state.lang}`;
+  const list = $('menuList');
+  list.replaceChildren(...sections.map(cornerCard));
+  if (key !== lastContentKey) {
+    list.classList.remove('is-entering', 'from-left', 'from-right');
+    void list.offsetWidth;
+    list.classList.add('is-entering');
+    if (pendingDirection) list.classList.add(pendingDirection > 0 ? 'from-right' : 'from-left');
+    const empty = $('emptyState');
+    empty.style.animation = 'none'; void empty.offsetWidth; empty.style.animation = '';
+    lastContentKey = key;
   }
-  if (notices.length) { const notice = el('div', 'card-notices'); notice.append(...notices.map(item => el('p', '', localized(item.ko, item.cn)))); content.push(notice); }
-  $('menuContent').replaceChildren(...content);
-  $('emptyState').hidden = !!section;
+  pendingDirection = 0;
+
+  $('emptyState').hidden = hasMenu;
+  document.querySelector('.meal-head').hidden = !hasMenu;
   $('emptyTitle').textContent = closedDay ? copy().holidayClosed : unpublished ? copy().notPublished : unavailable ? copy().unavailableMeal(copy()[state.meal]) : copy().empty;
-  $('emptyDescription').hidden = closedDay || unpublished || unavailable;
+  $('emptyDescription').textContent = closedDay ? copy().closedDescription : unpublished ? copy().notPublishedDescription : unavailable ? copy().unavailableDescription : copy().emptyDescription;
+
   let message = '';
   if (!restaurant && state.date) message = state.date > schedule.today ? copy().futureMissing : copy().missing;
   else if (restaurant?.fetch_status === 'error') message = copy().fetchError;
   else if (restaurant?.fetch_status === 'stale') message = restaurant.stale_reason === 'source_empty' ? copy().savedMenu : copy().staleRestaurant;
-  else if (!section && !closedDay && !unavailable && !unpublished && state.date > schedule.today) message = copy().futureMissing;
-  else if (isChinese() && section && (!validTranslation(section.name_ko, section.name_cn) || section.items.some(item => !validTranslation(item.ko, item.cn)))) message = copy().translationMissing;
+  else if (isChinese() && sections.some(section => !validTranslation(section.name_ko, section.name_cn) || section.items.some(item => !validTranslation(item.ko, item.cn)))) message = copy().translationMissing;
   showStatus('restaurantStatus', message);
   const freshness = dataFreshness(data);
-  const freshnessMessage = freshness === 'missing' ? copy().noData
-    : !navigator.onLine ? copy().offlineBanner
-      : offlineFallback ? copy().cachedBanner
-        : freshness !== 'fresh' ? copy().old : '';
-  showStatus('dataStatus', freshnessMessage);
+  showStatus('dataStatus', freshness === 'missing' ? copy().noData : !navigator.onLine ? copy().offlineBanner : offlineFallback ? copy().cachedBanner : freshness !== 'fresh' ? copy().old : '');
+  $('nowButton').hidden = state.automatic || !data;
 }
 
-function renderAppStatus() {
+function renderSettings() {
   const restaurant = currentRestaurant();
   const notes = isClosedDay(restaurant, state.date) ? [] : operatingNotices(restaurant);
   $('operatingSection').hidden = notes.length === 0;
@@ -411,51 +439,92 @@ function renderAppStatus() {
 function renderText() {
   document.documentElement.lang = isChinese() ? 'zh-CN' : 'ko';
   document.title = `${copy().brand} · Ajou Menu`;
-  const text = { brandSubtitle: 'brand', restaurantLabel: 'restaurant', mealLabel: 'meal', windowLabel: 'window', skipLink: 'skip', emptyTitle: 'empty', emptyDescription: 'emptyDescription', calendarTitle: 'calendar', calendarHint: 'calendarHint', datePickerLabel: 'calendar', copyTitle: 'share', copyHint: 'copyHint', toolsTitle: 'tools', toolsLabel: 'tools', refreshLabel: 'refresh' };
-  for (const [id, key] of Object.entries(text)) $(id).textContent = copy()[key];
+  const text = { brandSubtitle: 'brand', skipLink: 'skip', toolsTitle: 'tools', refreshLabel: 'refresh', sourceLabel: 'source', toolsDone: 'done', copyDone: 'done', copyTitle: 'share', copyHint: 'copyHint', disclaimer: 'disclaimer', footerNotice: 'footer', nowLabel: 'now' };
+  for (const [id, name] of Object.entries(text)) $(id).textContent = copy()[name];
   if (!$('refreshStatus').hidden) showStatus('refreshStatus', copy().refreshOffline);
   $('languageLabel').textContent = isChinese() ? '한국어' : '中文';
   $('langToggle').setAttribute('aria-label', isChinese() ? '한국어로 전환' : '切换到中文');
-  const labels = { dateToggle: 'calendar', navDateLabel: 'calendar', prevDate: 'previous', nextDate: 'next', calendarPrev: 'previousMonth', calendarNext: 'nextMonth', selectionPanel: 'restaurant', dateNavigation: 'calendar', toolsToggle: 'tools', shareButton: 'share' };
-  for (const [id, key] of Object.entries(labels)) $(id).setAttribute('aria-label', copy()[key]);
-  $('shareButton').title = copy().share;
-  for (const node of document.querySelectorAll('[data-close]')) node.setAttribute('aria-label', copy().close);
+  $('toolsToggle').setAttribute('aria-label', copy().tools);
   const generated = new Date(data?.generated_at);
-  $('updatedAt').textContent = Number.isFinite(generated.getTime()) ? `${copy().updated} ${new Intl.DateTimeFormat(isChinese() ? 'zh-CN' : 'ko-KR', { timeZone: 'Asia/Seoul', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).format(generated)} · KST` : '';
-  $('dateCount').textContent = copy().days(allDates(schedule).length);
+  $('updatedAt').textContent = Number.isFinite(generated.getTime()) ? `${copy().updated} ${new Intl.DateTimeFormat(locale(), { timeZone: 'Asia/Seoul', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).format(generated)} KST` : '';
 }
 
 function renderAll() {
-  state.sectionName = currentSection()?.name_ko || null;
-  if (!$('dateDialog').open) state.calendarWeek = state.week;
-  renderText(); renderDates(); renderSelectors(); renderMenu(); renderAppStatus();
+  state.sectionName = resolveSection(currentRestaurant(), state.meal, state.sectionName)?.name_ko || null;
+  renderText(); renderWeekStrip(); renderSelectors(); renderMenu(); renderSettings();
   // Keep shared links aligned with subsequent choices, including a language change.
   if (state.linked) window.history.replaceState(null, '', menuLink());
 }
-function notify(text) { clearTimeout(toastTimer); showStatus('actionStatus', text); toastTimer = setTimeout(() => showStatus('actionStatus', ''), 2400); }
+function notify(text) { clearTimeout(toastTimer); showStatus('actionStatus', text); toastTimer = setTimeout(() => showStatus('actionStatus', ''), 2000); }
 
-function menuLink() { const url = new URL(window.location.href); url.search = ''; url.hash = ''; for (const [key, value] of Object.entries({ date: state.date, restaurant: state.restaurantId, meal: state.meal, window: state.sectionName, lang: state.lang })) if (value != null) url.searchParams.set(key, value); return url.href; }
+function menuLink() { const url = new URL(window.location.href); url.search = ''; url.hash = ''; for (const [name, value] of Object.entries({ date: state.date, restaurant: state.restaurantId, meal: state.meal, lang: state.lang })) if (value != null) url.searchParams.set(name, value); return url.href; }
 async function copyMenu() {
-  const section = currentSection(); if (!section) return;
+  const sections = currentSections(); if (!sections.length) return;
   const info = restaurantInfo();
-  const heading = `${copy().brand}\n${dateText(state.date, { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' })}\n${localized(info.name_ko, info.name_cn)} · ${copy()[state.meal]} · ${localized(section.name_ko, section.name_cn)}`;
-  const text = `${heading}\n\n${section.items.map(item => localized(item.ko, item.cn)).join('\n')}`;
-  try { await navigator.clipboard.writeText(text); notify(copy().copied); }
-  catch { $('copyText').value = text; openDialog('copyDialog'); $('copyText').focus(); $('copyText').select(); }
+  const heading = `${copy().brand}\n${dateText(state.date, { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' })}\n${localized(info.name_ko, info.name_cn)} · ${copy()[state.meal]}`;
+  const body = sections.map(section => `【${localized(section.name_ko, section.name_cn)}】\n${section.items.map(item => localized(item.ko, item.cn)).join('\n')}`).join('\n\n');
+  const text = `${heading}\n\n${body}`;
+  try { await navigator.clipboard.writeText(text); haptic(); notify(copy().copied); }
+  catch { $('copyText').value = text; openSheet('copyDialog'); $('copyText').focus(); $('copyText').select(); }
+}
+
+function stepMeal(direction) {
+  const meals = availableMeals(currentRestaurant());
+  const index = meals.indexOf(state.meal);
+  const target = index < 0 ? meals[direction > 0 ? 0 : meals.length - 1] : meals[index + direction];
+  if (target) { chooseMeal(target, direction); return; }
+  const date = stepDate(schedule, state.date, direction);
+  if (date === state.date) return;
+  const week = schedule.weeks.find(item => item.dates.includes(date));
+  const restaurant = week?.days[date]?.restaurants?.find(item => Number(item.id) === state.restaurantId);
+  const nextMeals = availableMeals(restaurant);
+  haptic();
+  setSelection({ automatic: false, week: week.key, date, meal: nextMeals.length ? nextMeals[direction > 0 ? 0 : nextMeals.length - 1] : state.meal, sectionName: null }, direction);
+}
+function observeSwipes() {
+  let start = null;
+  const panel = $('mealPanel');
+  panel.addEventListener('touchstart', event => {
+    if (event.touches.length !== 1) { start = null; return; }
+    const touch = event.touches[0];
+    start = { x: touch.clientX, y: touch.clientY, time: Date.now() };
+  }, { passive: true });
+  panel.addEventListener('touchend', event => {
+    if (!start) return;
+    const touch = event.changedTouches[0];
+    const dx = touch.clientX - start.x, dy = touch.clientY - start.y;
+    const quick = Date.now() - start.time < 700;
+    start = null;
+    if (quick && Math.abs(dx) > 64 && Math.abs(dx) > Math.abs(dy) * 1.6) stepMeal(dx < 0 ? 1 : -1);
+  }, { passive: true });
+}
+function observeScroll() {
+  let ticking = false;
+  const update = () => {
+    ticking = false;
+    const threshold = $('pageTitle').getBoundingClientRect().bottom - $('topBar').getBoundingClientRect().bottom;
+    $('topBar').classList.toggle('is-scrolled', threshold < 0);
+  };
+  window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  update();
+}
+
+function clearRetiredAppearance() {
+  // The glass and custom-background settings were retired; free what they stored on this device.
+  try { localStorage.removeItem('menuGlassStyle'); localStorage.removeItem('menuBackgroundStyle'); } catch { /* optional */ }
+  try { indexedDB?.deleteDatabase('ajou-menu-background'); } catch { /* optional */ }
 }
 
 function init() {
+  clearRetiredAppearance();
   data = typeof MENU_DATA === 'undefined' ? null : MENU_DATA;
   schedule = buildSchedule(data);
   const params = new URLSearchParams(window.location.search);
   const language = params.get('lang') || storageRead('menuLang');
-  state = {
-    ...initialSelection(data, params),
-    lang: language === 'cn' ? 'cn' : 'ko',
-    calendarMonth: null,
-  };
+  const savedRestaurant = Number(storageRead('menuRestaurant'));
+  if (!params.has('restaurant') && RESTAURANTS.some(info => info.id === savedRestaurant)) params.set('restaurant', String(savedRestaurant));
+  state = { ...initialSelection(data, params), lang: language === 'cn' ? 'cn' : 'ko' };
   for (const node of document.querySelectorAll('[data-icon]')) node.replaceChildren(icon(node.dataset.icon));
-  observeWindowTabOverflow();
   $('langToggle').addEventListener('click', () => {
     state.lang = isChinese() ? 'ko' : 'cn';
     storageWrite('menuLang', state.lang);
@@ -464,13 +533,9 @@ function init() {
     window.history.replaceState(null, '', url);
     renderAll();
   });
-  for (const id of ['dateToggle','navDateLabel']) $(id).addEventListener('click', () => { state.calendarWeek = state.week; state.calendarMonth = state.date.slice(0, 7); renderDates(); openDialog('dateDialog'); });
-  $('todayButton').addEventListener('click', () => { refreshAutomaticSelection(true); $('dateDialog').close(); });
-  $('prevDate').addEventListener('click', () => chooseDate(stepDate(schedule, state.date, -1)));
-  $('nextDate').addEventListener('click', () => chooseDate(stepDate(schedule, state.date, 1)));
-  for (const [id, direction] of [['calendarPrev',-1],['calendarNext',1]]) $(id).addEventListener('click', () => { state.calendarMonth = stepCalendarMonth(schedule, state.calendarWeek, state.week, state.calendarMonth, direction); renderDates(); });
+  $('nowButton').addEventListener('click', () => { haptic(); refreshAutomaticSelection(true); window.scrollTo({ top: 0, behavior: 'smooth' }); });
   $('shareButton').addEventListener('click', copyMenu);
-  $('toolsToggle').addEventListener('click', () => { renderAppStatus(); openDialog('toolsDialog'); });
+  $('toolsToggle').addEventListener('click', () => { renderSettings(); openSheet('toolsDialog'); });
   $('refreshButton').addEventListener('click', async () => {
     if (!navigator.onLine) { showStatus('refreshStatus', copy().refreshOffline); return; }
     showStatus('refreshStatus', '');
@@ -482,29 +547,31 @@ function init() {
       const registration = await navigator.serviceWorker?.getRegistration();
       await registration?.update();
     })().catch(() => {});
-    await Promise.race([
-      updateWorker,
-      new Promise(resolve => { timeoutId = setTimeout(resolve, 2000); }),
-    ]);
+    await Promise.race([updateWorker, new Promise(resolve => { timeoutId = setTimeout(resolve, 2000); })]);
     clearTimeout(timeoutId);
     window.location.reload();
   });
   for (const event of ['online', 'offline']) window.addEventListener(event, () => {
     if (event === 'online') showStatus('refreshStatus', '');
-    renderMenu(); renderAppStatus();
+    renderMenu();
   });
-  for (const node of document.querySelectorAll('[data-close]')) node.addEventListener('click', () => $(node.dataset.close).close());
-  for (const dialog of document.querySelectorAll('dialog')) dialog.addEventListener('click', event => { const rect = dialog.getBoundingClientRect(); if (event.target === dialog && (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom)) dialog.close(); });
+  for (const node of document.querySelectorAll('[data-close]')) node.addEventListener('click', () => closeSheet($(node.dataset.close)));
+  for (const dialog of document.querySelectorAll('dialog')) {
+    dialog.addEventListener('click', event => { if (event.target === dialog) { const rect = dialog.getBoundingClientRect(); if (event.clientY < rect.top || event.clientY > rect.bottom || event.clientX < rect.left || event.clientX > rect.right) closeSheet(dialog); } });
+    dialog.addEventListener('cancel', event => { event.preventDefault(); closeSheet(dialog); });
+  }
   document.addEventListener('visibilitychange', () => { if (!document.hidden) refreshAutomaticSelection(); });
   setInterval(refreshAutomaticSelection, 30000);
+  observeSwipes();
   renderAll();
+  observeScroll();
   prepareOffline();
 }
 
 async function prepareOffline() {
-  if (!('serviceWorker' in navigator) || !window.isSecureContext) { offlineState = 'cacheUnsupported'; renderAppStatus(); return; }
+  if (!('serviceWorker' in navigator) || !window.isSecureContext) { offlineState = 'cacheUnsupported'; return; }
   navigator.serviceWorker.addEventListener('message', event => {
-    if (event.data?.type === 'menu-offline-fallback') { offlineFallback = true; renderMenu(); renderAppStatus(); }
+    if (event.data?.type === 'menu-offline-fallback') { offlineFallback = true; renderMenu(); }
   });
   try {
     const registration = await navigator.serviceWorker.register('sw.js', { scope: './', updateViaCache: 'none' });
@@ -517,12 +584,11 @@ async function prepareOffline() {
       });
       offlineState = reply?.ready ? 'cacheReady' : 'cacheFailed';
       if (reply?.fallback) { offlineFallback = true; renderMenu(); }
-      renderAppStatus();
     };
     if (registration.active) await inspect();
     else navigator.serviceWorker.ready.then(inspect);
     navigator.serviceWorker.addEventListener('controllerchange', inspect);
-  } catch { offlineState = 'cacheFailed'; renderAppStatus(); }
+  } catch { offlineState = 'cacheFailed'; }
 }
 
 if (typeof document !== 'undefined') document.addEventListener('DOMContentLoaded', init);

@@ -1,5 +1,7 @@
 # Third-party notices
 
+The November 2026 interface redesign is original CSS and JavaScript that follows the public Apple Human Interface Guidelines (system fonts, grouped backgrounds, segmented controls); it copies no third-party code or assets. The entries below record references consulted for earlier versions.
+
 The neutral theme tokens and compact menu, header, and date-navigation layout
 were adapted from **cukurova-yemekhane** by Umutcan:
 
