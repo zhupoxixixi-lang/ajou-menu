@@ -157,6 +157,26 @@ class RunScheduleTests(unittest.TestCase):
             main.run('2026-11-26')
         fetch.assert_not_called()
 
+    def test_a_few_stubborn_translations_do_not_block_publishing(self):
+        def day(date):
+            items = [{'ko': f'메뉴{date}-{n}', 'cn': ''} for n in range(10)]
+            if date == '2026-10-21':
+                items[0]['ko'] = '고집센메뉴'
+            return {'date': date, 'generated_at': '', 'restaurants': [
+                {'id': rid, 'fetch_status': 'ok', 'name_ko': '', 'location_ko': '',
+                 'meals': {'lunch': {'sections': [{'name_ko': 'A', 'name_cn': 'A', 'items': [dict(i) for i in items]}]}}}
+                for rid in RESTAURANTS]}
+
+        def translate(restaurants, *_args, **_kwargs):
+            for restaurant in restaurants:
+                for item in restaurant['meals']['lunch']['sections'][0]['items']:
+                    item['cn'] = '' if item['ko'] == '고집센메뉴' else '菜'
+
+        settings = {'REQUIRE_TRANSLATION': '1', 'TRANSLATE_API_KEY': 'test-key'}
+        with patch.object(main, '_load_previous', return_value={}), patch.object(main, 'fetch_single_day', side_effect=lambda d, _p: day(d)),                 patch.object(main, 'translate_menu', side_effect=translate), patch.object(main, '_write_json') as write,                 patch.dict('os.environ', settings):
+            main.run('2026-10-21')
+        self.assertEqual(write.call_args.args[1]['translation']['status'], 'partial')
+
     def test_recent_publication_window(self):
         now = main.datetime(2026, 11, 28, 0, 0, tzinfo=main.KST)
         self.assertTrue(main._published_recently({'generated_at': '2026-11-27T23:01:00+09:00'}, now))

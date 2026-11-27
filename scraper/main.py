@@ -201,9 +201,18 @@ def run(date_str: str | None = None):
     translate_menu(restaurants, api_key, endpoint, model, approved_cache=approved)
     summary = translation_summary(restaurants, model, endpoint)
     print(f'[main] Chinese menu coverage: {summary["translated"]}/{summary["total"]}')
-    incomplete = any(obj.get(source) and not is_valid_translation(obj[source], obj.get(target, ''))
-                     for obj, source, target, _ in iter_translation_fields(restaurants))
-    if require_translation and incomplete:
+    missing = sorted({obj[source] for obj, source, target, _ in iter_translation_fields(restaurants)
+                      if obj.get(source) and not is_valid_translation(obj[source], obj.get(target, ''))})
+    if missing:
+        # Menu text is public; naming it makes a stubborn translation easy to diagnose.
+        line = f'[main] Untranslated ({len(missing)}): ' + ' | '.join(missing[:10])
+        try:
+            print(line)
+        except UnicodeEncodeError:  # e.g. a GBK Windows console cannot show Hangul
+            print(line.encode('ascii', 'backslashreplace').decode('ascii'))
+    # A handful of stubborn dishes keep their Korean names (the page flags them) and are
+    # retried next run; they must not block the rest of the week from being published.
+    if require_translation and len(missing) > summary['total'] // 50:
         raise RuntimeError('Chinese menu translations incomplete; keeping the previous published data')
     summary['reviewed_at'] = datetime.now(KST).isoformat()
 
