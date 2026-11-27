@@ -57,7 +57,7 @@ def _response_text(body, model, effort):
 
 def request_batch(sources, api_key, api_endpoint, model, system_prompt, parse_response, *, reasoning_effort=None, deadline=None, budget=None):
     endpoint = api_endpoint.rstrip('/')
-    use_responses = endpoint.endswith('/responses') or (model.startswith('gpt-6') and reasoning_effort not in (None, '', 'none'))
+    use_responses = endpoint.endswith('/responses') or (model.startswith(('gpt-6', 'deepseek')) and reasoning_effort not in (None, '', 'none'))
     for suffix in ('/chat/completions', '/responses'):
         if endpoint.endswith(suffix):
             endpoint = endpoint.removesuffix(suffix)

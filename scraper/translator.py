@@ -12,9 +12,9 @@ from .ai_client import AIRequestError, RequestBudget, request_batch
 
 CACHE_PATH = Path(__file__).resolve().parent.parent / 'data' / 'translation_cache.json'
 CACHE_VERSION = 4
-DEFAULT_ENDPOINT = 'https://factchat-cloud.mindlogic.ai/v1/gateway'
-DEFAULT_MODEL = 'gpt-6-luna'
-DEFAULT_REASONING_EFFORT = 'max'
+DEFAULT_ENDPOINT = 'https://api.deepseek.com'
+DEFAULT_MODEL = 'deepseek-flash'
+DEFAULT_REASONING_EFFORT = 'high'
 _GLOSSARY_PATH = Path(__file__).with_name('menu_glossary.json')
 REFERENCE_TRANSLATIONS = json.loads(_GLOSSARY_PATH.read_text(encoding='utf-8'))
 _REFERENCE_BY_SOURCE = {re.sub(r'\s+', '', source): result for source, result in REFERENCE_TRANSLATIONS.items()}

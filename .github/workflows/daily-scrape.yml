@@ -18,9 +18,9 @@ jobs:
     timeout-minutes: 20
     env:
       PYTHONUNBUFFERED: '1'
-      TRANSLATE_MODEL: 'gpt-6-luna'
-      TRANSLATE_REASONING_EFFORT: 'max'
-      TRANSLATE_API_ENDPOINT: ${{ vars.TRANSLATE_API_ENDPOINT || 'https://factchat-cloud.mindlogic.ai/v1/gateway' }}
+      TRANSLATE_MODEL: 'deepseek-flash'
+      TRANSLATE_REASONING_EFFORT: 'high'
+      TRANSLATE_API_ENDPOINT: ${{ vars.TRANSLATE_API_ENDPOINT || 'https://api.deepseek.com' }}
       TRANSLATE_MAX_WORKERS: '4'
       TRANSLATE_RUN_TIMEOUT_SECONDS: '600'
     steps:

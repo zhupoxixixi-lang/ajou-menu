@@ -23,14 +23,14 @@ class AIConfigurationTests(unittest.TestCase):
         client.post.return_value = response
         return client
 
-    def test_translation_sends_gpt_6_luna_and_max_to_the_gateway(self):
+    def test_translation_sends_default_model_and_effort_via_responses(self):
         client = self.client()
         with patch.dict(os.environ, {'TRANSLATE_REASONING_EFFORT': ''}), patch.object(ai_client, '_session', return_value=client):
             result = translator._call_batch(['김치'], 'test-key', 'https://example.invalid', translator.DEFAULT_MODEL)
         self.assertEqual(result, ['泡菜'])
         request = client.post.call_args.kwargs['json']
-        self.assertEqual(request['model'], 'gpt-6-luna')
-        self.assertEqual(request['reasoning'], {'effort': 'max'})
+        self.assertEqual(request['model'], 'deepseek-flash')
+        self.assertEqual(request['reasoning'], {'effort': 'high'})
         self.assertEqual(request['store'], False)
         self.assertNotIn('temperature', request)
         self.assertEqual(client.post.call_args.args[0], 'https://example.invalid/responses')
@@ -60,10 +60,10 @@ class AIConfigurationTests(unittest.TestCase):
     def test_published_translation_metadata_records_requested_effort(self):
         with patch.dict(os.environ, {'TRANSLATE_REASONING_EFFORT': 'max'}):
             summary = main.translation_summary([], translator.DEFAULT_MODEL)
-        self.assertEqual(summary['model'], 'gpt-6-luna')
+        self.assertEqual(summary['model'], 'deepseek-flash')
         self.assertEqual(summary['reasoning_effort'], 'max')
 
-    def test_review_request_uses_default_model_max_and_aligned_drafts(self):
+    def test_review_request_uses_default_model_effort_and_aligned_drafts(self):
         client = self.client()
         reviewed = [{'id': 0, 'translation': '泡菜', 'approved': True}]
         client.post.return_value.json.return_value = {
@@ -82,8 +82,8 @@ class AIConfigurationTests(unittest.TestCase):
 
         self.assertEqual(result, ['泡菜'])
         request = client.post.call_args.kwargs['json']
-        self.assertEqual(request['model'], 'gpt-6-luna')
-        self.assertEqual(request['reasoning'], {'effort': 'max'})
+        self.assertEqual(request['model'], 'deepseek-flash')
+        self.assertEqual(request['reasoning'], {'effort': 'high'})
         self.assertEqual(request['store'], False)
         self.assertNotIn('temperature', request)
         self.assertEqual(client.post.call_args.args[0], 'https://example.invalid/responses')
