@@ -66,6 +66,11 @@ def _read_reader_html(url: str, restaurant_id: int, date_str: str) -> str:
         'X-No-Cache': 'true',
         'X-Timeout': '30',
     }
+    # Anonymous Reader traffic from shared CI addresses is sometimes refused (HTTP 401);
+    # an optional Reader-only key moves requests into the authenticated pool.
+    reader_key = os.environ.get('JINA_API_KEY', '').strip()
+    if reader_key:
+        headers['Authorization'] = f'Bearer {reader_key}'
     for attempt in range(3):
         _pace_reader_request()
         try:

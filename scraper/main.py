@@ -143,19 +143,49 @@ def _write_json(path: Path, data: dict, javascript: bool = False):
     temporary.replace(path)
 
 
+def _reusable_past_day(previous: dict, date_str: str) -> dict | None:
+    """A served day no longer changes; keep its published copy instead of refetching it."""
+    days = {**previous.get('days', {}), **previous.get('next_week', {}).get('days', {})}
+    day = days.get(date_str)
+    restaurants = (day or {}).get('restaurants', [])
+    if {entry.get('id') for entry in restaurants} != set(RESTAURANTS) or any(entry.get('fetch_status') not in ('ok', 'stale') for entry in restaurants):
+        return None
+    return copy.deepcopy(day)
+
+
+def _published_recently(previous: dict, now: datetime, hours: int = 30) -> bool:
+    try:
+        generated = datetime.fromisoformat(previous['generated_at'])
+    except (KeyError, TypeError, ValueError):
+        return False
+    if generated.tzinfo is None:
+        generated = generated.replace(tzinfo=KST)
+    return timedelta(0) <= now - generated <= timedelta(hours=hours)
+
+
 def run(date_str: str | None = None):
-    today = datetime.strptime(date_str, '%Y-%m-%d') if date_str else datetime.now(KST)
+    now = datetime.now(KST)
+    today = datetime.strptime(date_str, '%Y-%m-%d') if date_str else now
+    today_str = today.strftime('%Y-%m-%d')
     monday = today - timedelta(days=today.weekday())
     previous = _load_previous()
-    weeks = []
+    weeks, fetched = [], []
     for offset in ([0, 7] if today.weekday() >= 5 else [0]):
         days = {}
         for number in range(7):
             day = (monday + timedelta(days=offset + number)).strftime('%Y-%m-%d')
-            days[day] = fetch_single_day(day, previous)
+            reused = _reusable_past_day(previous, day) if day < today_str else None
+            days[day] = reused or fetch_single_day(day, previous)
+            if not reused:
+                fetched.extend(days[day]['restaurants'])
         weeks.append(days)
     restaurants = [restaurant for days in weeks for day in days.values() for restaurant in day['restaurants']]
-    if not any(restaurant.get('fetch_status') == 'ok' for restaurant in restaurants):
+    if not any(restaurant.get('fetch_status') == 'ok' for restaurant in fetched):
+        if not date_str and _published_recently(previous, now):
+            # A transient source outage is retried by the next scheduled run; the
+            # published data stays current, so this is a warning rather than a failure.
+            print('::warning::All restaurant fetches failed; keeping the recent published data')
+            return
         raise RuntimeError('All restaurant fetches failed; keeping the previous published data')
 
     api_key = os.environ.get('TRANSLATE_API_KEY', '')

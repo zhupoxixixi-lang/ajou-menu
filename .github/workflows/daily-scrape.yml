@@ -3,6 +3,7 @@ name: Daily Menu Scrape
 on:
   schedule:
     - cron: '0 15 * * *'  # 00:00 KST the next day; scheduled execution can be delayed
+    - cron: '0 21 * * *'  # 06:00 KST retry in case the midnight source fetch failed
   workflow_dispatch:
 
 permissions:
@@ -48,6 +49,7 @@ jobs:
       - name: Run scraper
         env:
           MENU_FETCH_TRANSPORT: 'reader_first'
+          JINA_API_KEY: ${{ secrets.JINA_API_KEY }}
           TRANSLATE_API_KEY: ${{ secrets.TRANSLATE_API_KEY }}
           REQUIRE_TRANSLATION: '1'
         run: python -m scraper.main

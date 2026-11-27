@@ -130,5 +130,45 @@ class FetchTests(unittest.TestCase):
         self.assertIsNone(extract_service_hours(closed, 221904)['dinner'])
 
 
+class RunScheduleTests(unittest.TestCase):
+    @staticmethod
+    def _day(date, status='ok'):
+        return {'date': date, 'generated_at': f'{date}T00:00:00+09:00', 'restaurants': [
+            {'id': rid, 'fetch_status': status, 'meals': {}} for rid in RESTAURANTS]}
+
+    def test_served_days_are_reused_and_today_onward_is_fetched(self):
+        previous = {'days': {d: self._day(d) for d in ('2026-11-23', '2026-11-24')}}
+        previous['days']['2026-11-25'] = self._day('2026-11-25', status='error')
+        with patch.object(main, '_load_previous', return_value=previous),                 patch.object(main, 'fetch_single_day', side_effect=lambda d, _p: self._day(d)) as fetch,                 patch.object(main, 'translate_menu'), patch.object(main, '_write_json') as write,                 patch.dict('os.environ', {'REQUIRE_TRANSLATION': '0', 'TRANSLATE_API_KEY': ''}):
+            main.run('2026-11-26')
+        fetched = [call.args[0] for call in fetch.call_args_list]
+        # 11-23/24 were served and published; 11-25 failed before, so it is fetched again.
+        self.assertEqual(fetched, ['2026-11-25', '2026-11-26', '2026-11-27', '2026-11-28', '2026-11-29'])
+        self.assertEqual(sorted(write.call_args.args[1]['days']), [f'2026-11-{n}' for n in range(23, 30)])
+
+    def test_all_failed_fetches_raise_for_an_explicit_date(self):
+        with patch.object(main, '_load_previous', return_value={'generated_at': '2026-11-26T00:00:00+09:00'}),                 patch.object(main, 'fetch_single_day', side_effect=lambda d, _p: self._day(d, status='error')),                 patch.object(main, '_write_json') as write:
+            with self.assertRaisesRegex(RuntimeError, 'All restaurant fetches failed'):
+                main.run('2026-11-26')
+        write.assert_not_called()
+
+    def test_recent_publication_window(self):
+        now = main.datetime(2026, 11, 28, 0, 0, tzinfo=main.KST)
+        self.assertTrue(main._published_recently({'generated_at': '2026-11-27T23:01:00+09:00'}, now))
+        self.assertFalse(main._published_recently({'generated_at': '2026-11-26T12:00:00+09:00'}, now))
+        self.assertFalse(main._published_recently({}, now))
+
+
+class ReaderKeyTests(unittest.TestCase):
+    def test_optional_reader_key_is_sent_only_to_reader(self):
+        from scraper import fetcher
+        url = fetcher.URL_TEMPLATE.format(article_no=363910, date='2026-11-26')
+        reply = Mock(status_code=200, content=b'{}', headers={})
+        reply.json.return_value = {'code': 200, 'data': {'httpStatus': 200, 'url': url, 'html': '<html></html>'}}
+        with patch.dict('os.environ', {'JINA_API_KEY': 'jina_test'}), patch.object(fetcher, '_pace_reader_request'),                 patch.object(fetcher._READER_SESSION, 'get', return_value=reply) as get:
+            fetcher._read_reader_html(url, 363910, '2026-11-26')
+        self.assertEqual(get.call_args.kwargs['headers']['Authorization'], 'Bearer jina_test')
+
+
 if __name__ == '__main__':
     unittest.main()
